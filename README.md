@@ -49,3 +49,6 @@
    7. Melakukan deployment ke Adaptable terhadap aplikasi yang sudah dibuat.
       - Sebelum melakukan deployment, saya lakukan `add`, `commit`, `push` pada repositori GitHub bernama hery_music_store_inventory
       - Setelah itu saya deploy aplikasi saya ke Adaptable dengan ketentuan template deployment `Python App Template` dan tipe basis data `PostgreSQL`
+     
+### 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara `urls.py`, `views.py`, `models.py`, dan berkas `html`.
+<img src = "C:\Users\mahog\Documents\UI\PBP esai\Bagan.png" >
