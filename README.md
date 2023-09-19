@@ -155,6 +155,14 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
         path('json/<int:id>/', show_json_by_id, name='show_json_by_id'),
         ...
         ```
+### Screenshot dari hasil akses URL pada Postman
 
-        
-         
+![messageImage_1695143950878](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/622c16d3-01b2-4dae-bcef-7409b8c0b1a9)
+
+![messageImage_1695143978588](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/1b65f895-96b2-429d-b2f7-4bf606ba6a77)
+
+![messageImage_1695144006197](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/7351f0db-5987-4004-97c9-3d6f1f206fcc)
+
+![messageImage_1695144098125](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/67a10bf9-98bc-40a3-b39c-43572b4a8b6a)
+
+![messageImage_1695144073686](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/fd197266-eea5-4ddb-8680-2fb1f8617fb0)
