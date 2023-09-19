@@ -75,7 +75,11 @@ Form POST digunakan ketika permintaan pada form akan merubah kondisi sistem serv
 
 ### 2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 
+HTML adalah pilar utama dalam pengembangan platform, HTML digunakan sebagai struktur suatu halaman pada web, sehingga pengiriman data juga tergabung dalam struktur tersebut. Sementara, JSON dan XML adalah representasi data yang digunakan dalam pertukaran data antaraplikasi. JSON mengrimkan data dengan sistem 'key & value', mudah di baca, dan cocok untuk data yang ringan. XML mengirimkan data dengan sistem terstruktur seperti *tree*, dimulai dari *root* dan masuk ke *branch*, cocok untuk data yang terstruktur dan *self-describing*. 
+
 ### 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
+
+JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena memiliki format yang ringan dan efisien, mudah dipahami oleh manusia dan mesin, independen dari bahasa pemrograman, memiliki kompabilitas dengan JavaScript yang juga mempermudah penulisan dan pembacaan data, serta tidak memerlukan tag seperti pada format XML. 
 
 ### 4. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
 
