@@ -71,6 +71,8 @@ Perbasarkan penjelasan diatas, perbedaan antara ketiganya adalah MVC berfokus pa
 
 ### 1. Apa perbedaan antara form POST dan form GET dalam Django?
 
+Form POST digunakan ketika permintaan pada form akan merubah kondisi sistem server, POST dapat merubah database pada server secara langsung. implementasi form POST lebih aman dibandingkan form GET karena nilai variabel data tidak ditampilkan di URL. Sementara form GET membungkus data pada form dengan sistem 'key & value' lalu data tersebut dimasukkan kealam sebuah URL, sehingga implementasinya kurang aman dibandingkan form POST karena semua orang dapat mengakses URL tersebut. Form GET hanya mengembalikan suatu data namun tidak merubah kondisi sistem server dan tidak ada data yang masuk database.
+
 ### 2. Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 
 ### 3. Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
