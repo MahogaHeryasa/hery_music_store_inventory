@@ -196,7 +196,7 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
         from django.contrib.auth.decorators import login_required  
         ```
       - Saya buat fungsi `register`, `login_user`, `logout_user` pada berkas `views.py`
-        - fungsi `register` akan menerima user baru dengan menggunakan `UserCreationForm` dan menyimpannya pada database
+         - fungsi `register` akan menerima user baru dengan menggunakan `UserCreationForm` dan menyimpannya pada database
           ``` python
           def register(request):
              form = UserCreationForm()
@@ -231,7 +231,7 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
                 logout(request)
                 return redirect('main:login')
             ```
-      - Saya buat template html `register.html` dan `login.html` pada direktori `main\templates` sebagai tampilan form register dan login
+      - Saya buat template html `register.html` dan `login.html` pada direktori `main\templates` sebagai tampilan form register dan login serta tombol `logout` pada `main.html`
       - Saya *import* fungsi-fungsi diatas pada `urls.py` untuk melakukan routing
         ``` python
         from main.views import ... register, login_user, logout_user
@@ -245,7 +245,69 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
         ...
         ```    
    2. Menghubungkan model `Item` dengan `User`.
-   3. Membuat dua akun pengguna dengan masing-masing tiga *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
-   4. Menampilkan detail informasi pengguna yang sedang `logged in` seperti username dan menerapkan `cookies` seperti last login pada halaman utama aplikasi.
-
+      - Pertama, saya *import* class User untuk menyambungkan user pada models
+        ``` python
+        from django.contrib.auth.models import User
+        ```
+      -  Saya tambahkan atribut `user` pada model `Item` untuk menyimpan user pada database
+         ``` python
+         user = models.ForeignKey(User, on_delete=models.CASCADE)
+         ```
+      - Pada fungsi `create_item` saya tambahkan potongan kode berikut agar item yang dibuat sesuai dengan user yang login
+        ``` python
+        ...
+        if form.is_valid() and request.method == "POST":
+           item = form.save(commit=False)
+           item.user = request.user
+           item.save()
+        ...
+        ```
+      - Saya lakukan migrasi aplikasi untuk atribut baru `user` pada model `Item` degan perintah `python manage.py makemigration` dan `python manage.py migrate`
+        
+   4. Membuat dua akun pengguna dengan masing-masing tiga *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
+   5. Menampilkan detail informasi pengguna yang sedang `logged in` seperti username dan menerapkan `cookies` seperti last login pada halaman utama aplikasi.
+      - Pada fungsi `show_main` saya tambahkan context `user_name` untuk memberikan nama user login pada template `main.html` 
+        ``` python
+        'user_name': request.user.username,
+        ```
+      - Pada `main.html` saya tambahkan
+        ``` html
+        ...
+        <h3 style="color:#99764b;">User: {{ user_name }} </h3>
+        ...
+        ```
+        untuk menampilkan user yang login pada web
+      - Saya lakukan import `import datetime` untuk waktu login pada penerapan `cookies`
+      - Pada fungsi `login_user` saya ubah blok kode bagian berikut
+        ``` python
+        ...
+        if user is not None:
+          login(request, user)
+          response = HttpResponseRedirect(reverse("main:show_main")) 
+          response.set_cookie('last_login', str(datetime.datetime.now()))
+          return response
+        ...
+        ```
+        agar set cookie waktu `'last_login'` pada user yang baru login,
+        dan mengubah fungsi `logout_user`
+        ``` python
+        def logout_user(request):
+          logout(request)
+          response = HttpResponseRedirect(reverse('main:login'))
+          response.delete_cookie('last_login')
+          return response
+        ```
+        agar menghapus cookie saat user logout
+      - Pada fungsi `show_main` saya tambahkan context `last_login` untuk memberikan waktu user terakhir login pada template `main.html` 
+        ``` python
+        'last_login': request.COOKIES['last_login'],
+        ```
+      - Pada `main.html` saya tambahkan
+        ``` html
+        ...
+        <h5>Sesi terakhir login: {{ last_login }}</h5>
+        ...
+        ```
+        untuk menampilkan waktu terakhir login user
+            
 </details>
