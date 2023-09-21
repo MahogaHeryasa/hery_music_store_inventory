@@ -305,7 +305,7 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
       - Pada `main.html` saya tambahkan
         ``` html
         ...
-        <h5>Sesi terakhir login: {{ last_login }}</h5>
+        <h5>{{user_name}}'s last login: {{ last_login }}</h5>
         ...
         ```
         untuk menampilkan waktu terakhir login user
