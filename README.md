@@ -186,9 +186,66 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 
-   1.  Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
-   2. Membuat dua akun pengguna dengan masing-masing tiga dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
-   3. Menghubungkan model `Item` dengan `User`.
+   1. Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna untuk mengakses aplikasi sebelumnya dengan lancar.
+      - Pertama, saya *import* beberapa method dan class untuk pembuatan form registerasi dan login serta fungsi logout
+        ``` python
+        from django.shortcuts import redirect
+        from django.contrib.auth.forms import UserCreationForm
+        from django.contrib import messages
+        from django.contrib.auth import authenticate, login, logout
+        from django.contrib.auth.decorators import login_required  
+        ```
+      - Saya buat fungsi `register`, `login_user`, `logout_user` pada berkas `views.py`
+        - fungsi `register` akan menerima user baru dengan menggunakan `UserCreationForm` dan menyimpannya pada database
+          ``` python
+          def register(request):
+             form = UserCreationForm()
+
+          if request.method == "POST":
+              form = UserCreationForm(request.POST)
+              if form.is_valid():
+                  form.save()
+                  messages.success(request, 'Your account has been successfully created!')
+                  return redirect('main:login')
+             context = {'form':form}
+             return render(request, 'register.html', context)
+          ```
+          - fungsi `login_user` akan menerima input username dan password dan akan dicocokan dengan user pada data base dengan method `authenticate`
+            ``` python
+            def login_user(request):
+                if request.method == 'POST':
+                  username = request.POST.get('username')
+                  password = request.POST.get('password')
+                  user = authenticate(request, username=username, password=password)
+                  if user is not None:
+                     login(request, user)
+                     return redirect('main:show_main')
+                 else:
+                     messages.info(request, 'Sorry, incorrect username or password. Please try again.')
+                context = {}
+                return render(request, 'login.html', context)
+            ```
+          - fungsi `logout_user` akan me-*logout* user yang berada pada server dan melakukan *redirect* ke halaman login kembali
+            ``` python
+            def logout_user(request):
+                logout(request)
+                return redirect('main:login')
+            ```
+      - Saya buat template html `register.html` dan `login.html` pada direktori `main\templates` sebagai tampilan form register dan login
+      - Saya *import* fungsi-fungsi diatas pada `urls.py` untuk melakukan routing
+        ``` python
+        from main.views import ... register, login_user, logout_user
+        ```
+      - Saya tambahkan path url pada list `urlpatterns`
+        ``` python
+        ...
+        path('register/', register, name='register'),
+        path('login/', login_user, name='login'),
+        path('logout/', logout_user, name='logout'),
+        ...
+        ```    
+   2. Menghubungkan model `Item` dengan `User`.
+   3. Membuat dua akun pengguna dengan masing-masing tiga *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
    4. Menampilkan detail informasi pengguna yang sedang `logged in` seperti username dan menerapkan `cookies` seperti last login pada halaman utama aplikasi.
 
 </details>
