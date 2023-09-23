@@ -178,11 +178,25 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
 
 ### 1. Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
 
+`UserCreationForm` adalah modul *build-in* pada Django yang bertindak sebagai form untuk membuat akun user baru pada aplikasi kita. for ini memiliki tiga `fields`, username, password1, dan password2(Digunakan untuk mengkonfirmasi password). Beberapa kelebihan `UserCreationForm` diantaranya, mudah digunakan karena hanya perlu mengimpor dan mengimplementasikkannya pada method di views.py, validasi input sudah dibuat secara otomatis dari `UserCreationForm`, serta mudah diintegrasikan dengan model `user` bawaan Django. Namun, `UserCreationForm` juga memiliki kekurangan diantaranya, tampilan form yang sangat sederhana sehingga kurangnya sentuhan personalisasi dari segi design, sistem keamanan dan autentikasi bawaan `UserCreationForm` yang kurang, serta kurangnya fungsionalitas seperti verivikasi email yang memerlukan kustomisasi yang kompleks sehingga mematahkan fungsi awal `UserCreationForm` yang seharusnya memudahkan.
+
 ### 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+   - Autentikasi adalah proses verifikasi kesesuaian pengguna dan indetitas pengguna yang mereka klaim sebagai kebenaran identitas mereka.
+   - Otorisasi adalah pembatasan terhadap hal yang boleh dan tidak boleh dilakukan di aplikasi oleh user yang telah ter-autentikasi.
+
+Kedua hal ini penting karena dengan autentikasi dan otorisasi keamanan privasi data pengguna aplikasi kita terjaga dan  sistem aplikasi kita terjaga dengan aman dengan adanya batasan user. 
 
 ### 3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
 
+Cookies adalah kumpulan data yang berisi rekam jejak dan aktivitas user ketika user menelusuri sebuah web. Cookies diterima komputer dari sebuah situs dan dikirimakan kembali ke situs yang dikunjungi sehingga *activity, preferences, login information* user dapat diingat sebuah web. Django menangani cookies secara otomatis. Ketika user menyimpan atau mengambil data dari suatu sesi web, Django akan menghasilkan cookie sesi yang sesuai dan mengirimkannya ke user.
+
 ### 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+
+Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk menyimpan data user yang tidak rahasia, namun masih terdapat beberapa resiko potensial yang harus diwaspadai diantaranya, 
+ - Session Hijacking: ketika cookies sesi dicuri oleh penyerang dan penyerang tersebut dapat dengan sah menjadi pengguna yang memiliki cookies sesi tersebut, penyerang dapat mengambil serta mengubah data pengguna didalam aplikasi.
+ - Cookies Poisoning: ketika penyerang mencoba meracuni cookie pengguna dengan data yang tidak sah atau berbahaya.
+ - Autauthentication bypass: user dapat menggunakan cookies untuk menembus otoritas aplikasi kita
+ - Man-in-the-Middle (MITM) Attacks: serangan dari seorang penyerang yang berinteraksi diantara aplikasi dan user, penyerang bisa mengambil cookie saat berkomunikasi dengan server dan mengambil data privasi user.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 
@@ -265,7 +279,30 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
       - Saya lakukan migrasi aplikasi untuk atribut baru `user` pada model `Item` degan perintah `python manage.py makemigration` dan `python manage.py migrate`
         
    4. Membuat dua akun pengguna dengan masing-masing tiga *dummy data* menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun di lokal.
-   5. Menampilkan detail informasi pengguna yang sedang `logged in` seperti username dan menerapkan `cookies` seperti last login pada halaman utama aplikasi.
+
+      - Pertama, regiter dua user pada form `registeration` aplikasi yang telah dibuat
+        
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/e11417db-5b21-4ea0-be6c-6c095e388657)
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/9b00b9c8-7880-4f64-a8f3-c325608c6b46)
+
+      - Login kedua user tersebut
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/47aa78be-87d1-458b-b77a-2943fc888924)
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/a61d74d9-4e34-4568-8fcb-dc79e2f00a14)
+
+      - Tambahkan tiga item dengan mengisi form `create_item`
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/3ee83374-8077-4156-91c1-9890d4227470)
+
+      - Berikut hasil kedua akun pengguna
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/081449ce-83ff-4e39-953e-83a9cdf2e569)
+
+        ![image](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/fdb6c195-3848-42ae-add7-a2cb6f96c756)
+
+   6. Menampilkan detail informasi pengguna yang sedang `logged in` seperti username dan menerapkan `cookies` seperti last login pada halaman utama aplikasi.
       - Pada fungsi `show_main` saya tambahkan context `user_name` untuk memberikan nama user login pada template `main.html` 
         ``` python
         'user_name': request.user.username,
