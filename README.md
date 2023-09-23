@@ -177,18 +177,6 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
 <summary><b><h1>Tugas 4</h1></b></summary>
 
 ### 1. Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
-
-<<<<<<< HEAD
-### 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
-
-### 3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
-
-### 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
-
-### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
-
-</details>
-=======
 `UserCreationForm` adalah modul *build-in* pada Django yang bertindak sebagai form untuk membuat akun user baru pada aplikasi kita. for ini memiliki tiga `fields`, username, password1, dan password2(Digunakan untuk mengkonfirmasi password). Beberapa kelebihan `UserCreationForm` diantaranya, mudah digunakan karena hanya perlu mengimpor dan mengimplementasikkannya pada method di views.py, validasi input sudah dibuat secara otomatis dari `UserCreationForm`, serta mudah diintegrasikan dengan model `user` bawaan Django. Namun, `UserCreationForm` juga memiliki kekurangan diantaranya, tampilan form yang sangat sederhana sehingga kurangnya sentuhan personalisasi dari segi design, sistem keamanan dan autentikasi bawaan `UserCreationForm` yang kurang, serta kurangnya fungsionalitas seperti verivikasi email yang memerlukan kustomisasi yang kompleks sehingga mematahkan fungsi awal `UserCreationForm` yang seharusnya memudahkan.
 
 ### 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
@@ -359,4 +347,3 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
         untuk menampilkan waktu terakhir login user
             
 </details>
->>>>>>> 0d04dfd14d4e66ecf167ace0dda52359778c136e
