@@ -1,6 +1,7 @@
-# Tugas 2
-
 ## Tautan Aplikasi = [hery-music-store-inventory](https://hery-music-store-inventory.adaptable.app/main/)
+
+<details>
+<summary><b><h1>Tugas 2</h1></b></summary>
 
 ### 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 
@@ -67,7 +68,10 @@ Virtual environment digunakan untuk menggisolasi ketergantungan dan kebutuhan li
 
 Perbasarkan penjelasan diatas, perbedaan antara ketiganya adalah MVC berfokus pada pengendalian alur kerja aplikasi, MVT memiliki view yang berperan lebih sebagai pengendali tampilan, sementara logika bisnisnya diatur di Model dan Template, dan MVVM memiliki sistem yang mengikat data dengan tampilan secara langsung. 
 
-# Tugas 3
+</details>
+
+<details>
+<summary><b><h1>Tugas 3</h1></b></summary>
 
 ### 1. Apa perbedaan antara form POST dan form GET dalam Django?
 
@@ -166,3 +170,20 @@ JSON sering digunakan dalam pertukaran data antara aplikasi web modern karena me
 ![messageImage_1695144098125](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/67a10bf9-98bc-40a3-b39c-43572b4a8b6a)
 
 ![messageImage_1695144073686](https://github.com/MahogaHeryasa/hery_music_strore_inventory/assets/124902537/fd197266-eea5-4ddb-8680-2fb1f8617fb0)
+
+</details>
+
+<details>
+<summary><b><h1>Tugas 4</h1></b></summary>
+
+### 1. Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
+
+### 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+
+### 3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+
+### 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
+
+</details>

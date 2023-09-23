@@ -1,44 +1,210 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <h1 style="text-align:center; background-color:#d5a569; color: whitesmoke">{{ application_name }}</h1>
+{% block meta %}
+    <style>
+        * {
+        box-sizing: border-box;
+        }
 
-    <h3 style="color:#99764b;">There are {{counter}} items in this inventory</h3>
+        body {
+        margin: 0;
+        }
 
-    <table cellspacing="1" cellpadding="1" border="1" bgcolor="#d5a569" bordercolor = black>
-        <tr bgcolor="#FFFFFF">
-            <th>Name</th>
-            <th>Price</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Date Added</th>
-        </tr>
+        .header {
+        background-color: #920000;
+        padding: 20px;
+        text-align: center;
+        }
 
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        .topnav {
+        overflow: hidden;
+        text-align: right;
+        background-color: #1a0e00;
+        color: #f2f2f2;
+        }
 
-        {% for item in items %}
-            <tr>
-                <td>{{item.name}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.date_added}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+        .topnav a {
+        float: left;
+        display: block;
+        background-color: #1a0e00;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        }
 
-    <br />
+        .topnav a:hover {
+        background-color: #1a0e00;
+        color: #f2f2f2;
+        }
 
-    <a href="{% url 'main:create_item' %}">
-        <button>
-            Add New Item
-        </button>
-    </a>
+        .column {
+        float: left;
+        padding: 10px;
+        margin-bottom: 98px;
+        }
 
-    <br />
+        .container { /* this is for left column */
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .left {
+        width: 25%;
+        background-image: url('https://i.pinimg.com/564x/65/fb/e8/65fbe8ca3f041e799c434c15509e71e2.jpg');
+        background-size: auto;
+        background-repeat: repeat;
+        background-position: center;
+        }
+
+        .right {
+        width: 75%;
+        }
+
+        /* Clear floats after the columns */
+        .row::after {
+        content: "";
+        display: table;
+        clear: both;
+        }
+
+        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other
+        @media screen and (max-width: 600px) {
+        .column.side, .column.middle {
+            width: 100%;
+        }
+        } */
+
+        .footer {
+        background-color: #920000;
+        padding: 10px;
+        text-align: left;
+        color: #f2f2f2;
+        font-size: x-small;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        }
+
+        /* below this is for table */
+        th, td{
+            padding: 8px;
+            text-align:left;
+            border: 3px solid #000000;
+        }
+
+        th {
+            background-color: #5a0000;
+            color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #920000;
+            color: #f2f2f2;
+        }
+
+    </style>
+{% endblock meta %}
+
+{% block content %}    
+    <div class="header">
+        <h1 style="text-align:center; color: #f2f2f2">{{ application_name }}</h1>
+    </div>
+
+    <div class="topnav">
+        <a href="{% url 'main:logout' %}">Home</a>
+        <a href="{% url 'main:logout' %}">Login</a>
+        <a href="{% url 'main:logout' %}">Logout</a>
+    </div>
+
+    <div class="row">
+        <div class="container">
+
+            <div class="column left">
+
+                <h3 style="color: #000000; background-color: #f2f2f2; display: inline-block;"> User: {{ user_name }}</h3>
+                
+                <h5 style="color: #000000; background-color: #f2f2f2; display: inline-block;">{{user_name}}'s last login: {{ last_login }}</h5>
+            
+                <br />
+                
+                <a href="{% url 'main:logout' %}">
+                    <button>
+                        Logout
+                    </button>
+                </a>
+            </div>
+
+            <div class="column right">
+                <h3 style="color:#5a0000;">There are {{counter}} items in this inventory</h3>
     
-    <p style="text-align: center;">Created by</p>
-    <h5 style="text-align: center;">Name: {{ name }}</h5>
-    <h5 style="text-align: center;">Class: {{ class }}</h5>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Date Added</th>
+                        <th>Increase Stock</th>
+                        <th>Decrease Stock</th>
+                        <th>Delete Item</th>
+                    </tr>
+            
+                    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+            
+                    {% for item in items %}
+                        <tr>
+                            <td>{{item.name}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>{{item.description}}</td>
+                            <td>{{item.date_added}}</td>
+                            <td>
+                                <form method="post" action="{% url 'main:increase' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
+                                    <button type="submit"> + </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="post" action="{% url 'main:decrease' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
+                                    <button type="submit"> - </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form method="post" action="{% url 'main:delete' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
+                                    <button type="submit"> DEL </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+    
+                <br />
+                        
+                <a href="{% url 'main:create_item' %}">
+                    <button>
+                        Add New Item
+                    </button>
+                </a>
+    
+            </div>
 
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Created by</p>
+        <p>Name: {{ my_name }}</p>
+        <p>Class: {{ class }}</p>    
+    </div>
+    
 {% endblock content %} 
