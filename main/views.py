@@ -96,7 +96,7 @@ def logout_user(request):
 
 def increase_item(request):
     item_index = int(request.POST.get('item_index'))
-    data = Item.objects.all()
+    data = Item.objects.filter(user = request.user)
     item = data[item_index]
     item.amount += 1
     item.save()
@@ -105,7 +105,7 @@ def increase_item(request):
 
 def decrease_item(request):
     item_index = int(request.POST.get('item_index'))
-    data = Item.objects.all()
+    data = Item.objects.filter(user = request.user)
     item = data[item_index]
     item.amount -= 1
     item.save()
@@ -117,7 +117,7 @@ def decrease_item(request):
 
 def delete(request):
     item_index = int(request.POST.get('item_index'))
-    data = Item.objects.all()
+    data = Item.objects.filter(user = request.user)
     item = data[item_index]
     item.delete()
 
