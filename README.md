@@ -581,7 +581,7 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
 
     {% endblock %}
       ```
-      - Menambahkan *internal style sheet* pada berkas `create_item.html` untuk memodifikasi ketentuan *background image*
+      - Menambahkan *internal style sheet CSS* pada berkas `create_item.html` untuk memodifikasi ketentuan *background image*
       ``` html
       {% extends 'base.html' %} 
       <style>
@@ -707,5 +707,84 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
         </footer>
     {% endblock content %} 
       ```
+
+      - Mengimplementasikan *internal style sheet CSS* untuk memodifikasi komponen
+      ``` html
+      {% extends 'base.html' %}
+
+      {% block meta %}
+          <style>
+              .card {
+              width: 500px; /* Adjust the desired width */
+              height: 600px; /* Adjust the desired height */
+              }
+
+              .card-title {
+                  height: 40px;
+                  white-space: nowrap;
+              }
+
+              .card-body {
+                  background-color: #920000;
+              }
+
+              .card-text {
+                  color: #ecbdbd;
+              }
+
+              .navbar {
+                  background-color: #920000;
+              }
+
+              footer {
+                  height: 100px;
+                  bottom: 0;
+                  width: 100%;
+                  position:sticky;
+                  text-align: center;
+                  background-color: #5a0000;
+
+              }
+
+              /* below this is for table */
+              th, td{
+                  padding: 8px;
+                  text-align:left;
+              }
+
+              table {
+                  border-collapse: collapse;
+                  width: 100%;
+                  border: 1px solid #000000;
+              } 
+
+              th {
+                  background-color: #5a0000;
+                  color: #f2f2f2;
+              }
+              
+              tr:nth-child(even) {
+                  background-color: #f2f2f2;
+              }
+
+              tr:nth-child(odd) {
+                  background-color: #920000;
+                  color: #f2f2f2;
+              }
+
+              tr:last-of-type {
+                  background-color:#5a0000;
+                  color: #f2f2f2;
+              }
+
+              .text-with-stroke{
+                  -webkit-text-stroke: 1.5px black;
+              }
+
+          </style>
+      {% endblock meta %}
+      ...
+      ```
+
 
 </details>
