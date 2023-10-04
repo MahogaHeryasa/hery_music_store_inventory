@@ -2,96 +2,49 @@
 
 {% block meta %}
     <style>
-        * {
-        box-sizing: border-box;
+        .card {
+        width: 500px; /* Adjust the desired width */
+        height: 600px; /* Adjust the desired height */
         }
 
-        body {
-        margin: 0;
+        .card-title {
+            height: 40px;
+            white-space: nowrap;
         }
 
-        .header {
-        background-color: #920000;
-        padding: 20px;
-        text-align: center;
+        .card-body {
+            background-color: #920000;
         }
 
-        .topnav {
-        overflow: hidden;
-        text-align: right;
-        background-color: #1a0e00;
-        color: #f2f2f2;
+        .card-text {
+            color: #ecbdbd;
         }
 
-        .topnav a {
-        float: left;
-        display: block;
-        background-color: #1a0e00;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
+        .navbar {
+            background-color: #920000;
         }
 
-        .topnav a:hover {
-        background-color: #1a0e00;
-        color: #f2f2f2;
-        }
-
-        .column {
-        float: left;
-        padding: 10px;
-        margin-bottom: 98px;
-        }
-
-        .container { /* this is for left column */
-            min-height: 100vh;
-            display: flex;
-        }
-
-        .left {
-        width: 25%;
-        background-image: url('https://i.pinimg.com/564x/65/fb/e8/65fbe8ca3f041e799c434c15509e71e2.jpg');
-        background-size: auto;
-        background-repeat: repeat;
-        background-position: center;
-        }
-
-        .right {
-        width: 75%;
-        }
-
-        /* Clear floats after the columns */
-        .row::after {
-        content: "";
-        display: table;
-        clear: both;
-        }
-
-        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other
-        @media screen and (max-width: 600px) {
-        .column.side, .column.middle {
+        footer {
+            height: 100px;
+            bottom: 0;
             width: 100%;
-        }
-        } */
+            position:sticky;
+            text-align: center;
+            background-color: #5a0000;
 
-        .footer {
-        background-color: #920000;
-        padding: 10px;
-        text-align: left;
-        color: #f2f2f2;
-        font-size: x-small;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
         }
 
         /* below this is for table */
         th, td{
             padding: 8px;
             text-align:left;
-            border: 3px solid #000000;
         }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #000000;
+        } 
 
         th {
             background-color: #5a0000;
@@ -107,104 +60,108 @@
             color: #f2f2f2;
         }
 
+        tr:last-of-type {
+            background-color:#5a0000;
+            color: #f2f2f2;
+        }
+
+        .text-with-stroke{
+            -webkit-text-stroke: 1.5px black;
+        }
+
+
+
     </style>
 {% endblock meta %}
 
-{% block content %}    
-    <div class="header">
-        <h1 style="text-align:center; color: #f2f2f2">{{ application_name }}</h1>
-    </div>
-
-    <div class="topnav">
-        <a href="{% url 'main:logout' %}">Home</a>
-        <a href="{% url 'main:logout' %}">Login</a>
-        <a href="{% url 'main:logout' %}">Logout</a>
-    </div>
-
-    <div class="row">
-        <div class="container">
-
-            <div class="column left">
-
-                <h3 style="color: #000000; background-color: #f2f2f2; display: inline-block;"> User: {{ user_name }}</h3>
-                
-                <h5 style="color: #000000; background-color: #f2f2f2; display: inline-block;">{{user_name}}'s last login: {{ last_login }}</h5>
-            
-                <br />
-                
-                <a href="{% url 'main:logout' %}">
-                    <button>
-                        Logout
-                    </button>
+{% block content %}
+    <nav class="navbar navbar-dark shadow fixed-top">
+        <div class="container-fluid">
+        <a class="navbar-brand" style="color: #f2f2f2;">
+            <img src="https://clipartcraft.com/images/guitar-logo-8.png" alt="logo" width="50" height="50">   Hery Music Store Inventory
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f2f2f2;">
+                    Option
                 </a>
-            </div>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'main:create_item' %}">Add Item</a></li>
+                </ul>
+            <li class="nav-item dropdown">
+                    <a class="nav-link" href="#">last login: {{last_login}}.</a>
+            </li>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
 
-            <div class="column right">
-                <h3 style="color:#5a0000;">There are {{counter}} items in this inventory</h3>
-    
-                <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date Added</th>
-                        <th>Increase Stock</th>
-                        <th>Decrease Stock</th>
-                        <th>Delete Item</th>
-                    </tr>
-            
-                    {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
-            
-                    {% for item in items %}
-                        <tr>
-                            <td>{{item.name}}</td>
-                            <td>{{item.price}}</td>
-                            <td>{{item.amount}}</td>
-                            <td>{{item.description}}</td>
-                            <td>{{item.date_added}}</td>
-                            <td>
-                                <form method="post" action="{% url 'main:increase' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
-                                    <button type="submit"> + </button>
-                                </form>
-                            </td>
-                            <td>
-                                <form method="post" action="{% url 'main:decrease' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
-                                    <button type="submit"> - </button>
-                                </form>
-                            </td>
-                            <td>
-                                <form method="post" action="{% url 'main:delete' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="item_index" value="{{ forloop.counter0 }}">
-                                    <button type="submit"> DEL </button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-    
-                <br />
-                        
-                <a href="{% url 'main:create_item' %}">
-                    <button>
-                        Add New Item
-                    </button>
-                </a>
-    
-            </div>
-
+    <div style="background: url(https://guitar.com/wp-content/uploads/2021/04/guitar-shop@1400x1050.jpg); font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" class="jumbotron bg-cover text-white">
+        <div class="container py-5 text-center">
+            <br/> <br/> <br/><br/><br/><br/>
+            <h1 class="display-4 font-weight-bold text-with-stroke">Welcome {{user_name}}, to Your Inventory</h1>
+            <br/>
+            <br/> <br/> <br/> <br/>
+            <a href= "{% url 'main:create_item' %}" class="btn btn-light px-5">Add Item</a>
         </div>
     </div>
+  
+    <section class="py-5">
+        <br/>
+        <div class="container">
+            <h1 style="color:#5a0000; text-align: center;">Total Items Stored in Inventory: {{counter}}</h1>
+            <br/> <br/>
+            <h5 style="color:#5a0000;"> List Item </h5> 
+            <table>
+                <tr>
+                    <th style="border: 1px solid #000000;">No</th>
+                    <th style="border: 1px solid #000000;">Item</th>
+                </tr>
+                {% for item in items %}
+                    <tr>
+                        <td style="border: 1px solid #000000;">{{forloop.counter}}</td>
+                        <td style="border: 1px solid #000000;">{{item.name}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br/> <br/> <br/>
+            <h5 style="color:#5a0000;"> Catalog </h5>
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-md-3 mb-5">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="https://clipartcraft.com/images/guitar-logo-8.png" alt="item">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color:#f2f2f2; white-space: wrap; ">{{item.name}}</h5>
+                                <p></p>
+                                <p class="card-text">Description: {{item.description}}</p>
+                                <p class="card-text">Price: {{item.price}}</p>
+                                <p class="card-text">Amount: {{item.amount}}</p>
+                                <a href="{% url 'main:increase' item.pk %}" class="btn btn-light">+</a>
+                                <a href="{% url 'main:decrease' item.pk %}" class="btn btn-light">-</a>
+                                <a href="{% url 'main:delete' item.pk %}" class="btn btn-light">DEL</a>
+                            </div>
+                            <div class="card-footer" style="background-color: #ffffff;">
+                                <small class="text-muted">Date Added: {{item.date_added}}</small>
+                            </div>
+                        </div>
+                    </div>
+                <br/>    
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-    <div class="footer">
-        <p>Created by</p>
-        <p>Name: {{ my_name }}</p>
-        <p>Class: {{ class }}</p>    
-    </div>
-    
+    </br>
+    <footer id="sticky-footer" class="flex-shrink-0 py-4">
+        <div class="container text-center">
+          <small style="color: #f2f2f2;">Copyright &copy; {{ my_name }} of Class: {{ class }}</small>
+        </div>
+    </footer>
 {% endblock content %} 

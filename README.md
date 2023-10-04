@@ -347,3 +347,365 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
         untuk menampilkan waktu terakhir login user
             
 </details>
+
+<details>
+<summary><b><h1>Tugas 5</h1></b></summary>
+
+ ### 1. Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+ Element selector CSS berguna untuk menyeleksi atau mengelompokkan elemen HTML yang akan mengaplikasikan *style* CSS yang sama.
+  - Selektor Tag
+    - Manfaat: digunakan untuk memilih semua elemen dengan tag HTML tertentu 
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada semua tag HTML yang sama
+  - Selektor Class
+    - Manfaat: digunakan untuk mengelompokkan elemen HTML berdasarkan class yang kita buat
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada elemen tertentu tanpa mempengaruhi elemen-elemen lain
+  - Selektor Id
+    - Manfaat: digunakan untuk memilih elemen HTML spseifik berdasarkan id yang unik dan hanya satu pada berkas HTML
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada satu elemen speifik
+  - Selektor Class
+    - Manfaat: digunakan untuk memilih elemen berdasarkan atribut HTML mereka
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada salah satu atribut elemen sperti elemen input yang memiliki atribut tipe
+  - Selektor Universal
+    - Manfaat: digunakan untuk memilih semua elemen pada berkas HTML
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada semua elemen
+  - Selektor Class
+    - Manfaat: digunakan untuk memilih elemen semu seperti state pada elemen, elemen before dan after, elemen ganjil, dan sebagainya.
+    - Waktu penggunaan: ketika ingin mengaplikasikan *style* CSS pada elemen berdasarkan aksi atau kondisi tertentu.
+
+ ### 2. Jelaskan HTML5 Tag yang kamu ketahui.
+  - `<article>`: Mengidentifikasi konten artikel yang berdiri sendiri.
+  - `<datalist>`: Kumpulan opsi default untuk elemen `<input>`
+  - `<header>`: Representasi dari *header* pada suatu dokumen atau bagian tertentu.
+  - `<footer>`: Representasi dari *footer* pada suatu dokumen atau bagian tertentu.
+  - `<section>`: Untuk mendefinisikan *section* pada suatu dokumen seperti *header* dan *footer*
+
+ ### 3. Jelaskan perbedaan antara margin dan padding.
+ Margin dan padding digunakan untuk mengatur tata letak elemen pada berkas HTML. Margin diimplementasikan dengan membuat ruang kosong di luar elemen sehingga tidak mempengaruhi ukuran elemen namun mempengaruhi jarak antara elemen tersebut dengan yang lain serta mempengaruhi keseluruhan berkas. Sementara padding diimplementasikan dengan membuat ruang kosong didalam elemen sehingga tidak mempengaruhi jarak antara elemen lain namun mempengaruhi ukuran elemen itu sendiri.
+ 
+ ### 4. Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+ Tailwind diimplementasikan pada design html dengan menggabungkan kelas-kelas utilitas yang telah terdefinisikan sebelumnya, memiliki berkas CSS yang lebih ringan, memiliki flexsibilitas *customization* yang tinggi, namun lebih kompleks dikarenakan perlu menggabungkan kelas-kelas utilitas untuk mencapai tampilan yang diinginkan. Sementara bootstrap diimplementasikan pada design html secara langsung dengan komponen dan gaya yang telah didefinisikan oleh bootstrap, memiliki design repetetif dan minim *customization*, namun lebih mudah digunakan.
+
+ Bootstrap sebaiknya digunakan daripada Tailwind ketika kita perlu membuat proyek yang tidak memakan waktu atau pemula yang baru mengenali pemengembangan web, implementasi design akan lebih mudah dengan komponen bawaan Bootstrap. Sebaliknya Tailwind digunakan ketika proyek kita memerlukan kontrol yang lebih besar terhadap tampilan, namun rela melakukan pekerjaan yang lebih banyak untuk mengatur hal tersebut.  
+
+ ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+  - Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma)
+    1. Menambahkan Bootstrap pada aplikasi dengan menambahkan link bootstrap pada base.html 
+      ``` html
+      <head>
+      ...
+          {% block meta %}
+          {% endblock meta %}
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+J4jsl5c9zdLKaUk5Ae5f5b1bw6AUn5f5v8FZJoMxm6f5cH1" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+      </head>
+      ...
+      ```
+
+    2. Kustomisasi `login.html`
+      - mengimplementasikan template Bootstrap yang menggunakan card sebagai tempat menyimpan form login 
+      ``` html
+    {% extends 'base.html' %}
+
+    {% block meta %}
+        <title>Login</title>
+    {% endblock meta %}
+
+    {% block content %}
+
+    <div class = "login">
+
+        <section class="vh-100" style="background-color: #5a0000;">
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                  <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                      <div class="col-md-6 col-lg-5 d-none d-md-block">
+                        <img src="https://i.pinimg.com/564x/65/fb/e8/65fbe8ca3f041e799c434c15509e71e2.jpg"
+                          alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                      </div>
+                      <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                        <div class="card-body p-4 p-lg-5 text-black">
+          
+                          <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="d-flex align-items-center mb-3 pb-1">
+                              <img src="https://clipartcraft.com/images/guitar-logo-8.png" alt="Logo" width="50" height="50" style="margin-right: 10px;">
+                              <span class="h2 fw-bold mb-0">Hery Music Store Inventory</span>
+                            </div>
+                            <br/> <br/> 
+                            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Login</h5>
+          
+                            <div class="form-outline mb-4">
+                              <input type="text" name="username" id="Username" class="form-control form-control-lg" placeholder="Username"/>
+                              <!-- <label for="Username">Username</label> -->
+                            </div>
+          
+                            <div class="form-outline mb-4">
+                              <input type="password" name="password" id="pwpw" class="form-control form-control-lg" placeholder="Password"/>
+                              <!-- <label class="form-label" for="pwpw">Password</label> -->
+                            </div>
+          
+                            <div class="pt-1 mb-4">
+                              <button class="btn btn-dark btn-lg btn-block" type="submit" value="Login">Login</button>
+                            </div>
+                            
+                            {% if messages %}
+                            <ul>
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}   
+          
+                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'main:register' %}"
+                                style="color: #393f81;">Register here</a></p>
+                          </form>
+          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+    </div>
+
+    {% endblock content %}
+      ```
+
+    3. Kustomisasi `register.html`
+      - mengimplementasikan template Bootstrap yang menggunakan card sebagai tempat menyimpan form register
+      ``` html
+      {% extends 'base.html' %}
+
+      {% block meta %}
+          <title>Register</title>
+      {% endblock meta %}
+
+      {% block content %}  
+
+      <div class = "login">
+          
+          <section class="vh-100" style="background-color: #5a0000;">
+              <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                  <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                      <div class="card-body p-5 text-left">
+            
+                        <h3 class="mb-5">Sign in</h3>
+                        
+                        <form method="POST">
+                          {% csrf_token %} 
+                          <div class="form-outline mb-4">
+                            <input type="text" id="id_username"  class="form-control form-control-lg" name="{{ form.username.name }}" placeholder="Username"/>
+                          </div>
+              
+                          <div class="form-outline mb-4">
+                            <input type="password" id="id_password1" class="form-control form-control-lg" name="{{ form.password1.name }}" placeholder="Password"/>
+                          </div>
+              
+                          <div class="form-outline mb-4">
+                            <input type="password" id="id_password2" class="form-control form-control-lg" name="{{ form.password2.name }}" placeholder="Re-type Password"/>
+                          </div>
+                          <hr class="my-4">
+                          <button class="btn btn-primary btn-dark btn-block" type="submit" name="submit" value="Daftar">Register</button>
+                        </form>
+                        {% if messages %}  
+                        <ul>   
+                            {% for message in messages %}  
+                                <li>{{ message }}</li>  
+                                {% endfor %}  
+                        </ul>   
+                        {% endif %} 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </section>  
+      </div>  
+
+      {% endblock content %}
+      ```
+    4. Kustomisasi `create_item.html`
+      - mengimplementasikan template Bootstrap yang menggunakan card sebagai tempat menyimpan form create item
+      ``` html
+    ...
+    {% block content %}
+    <section class="intro">
+        <div class="bg-image-vertical h-100" style="background-color: #f2f2f2;
+                background-image: url(https://guitar.com/wp-content/uploads/2021/04/guitar-shop@1400x1050.jpg);
+              ">
+          <div class="mask d-flex align-items-center">
+            <div class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+              <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                  <div class="card" style="border-radius: 1rem;">
+                    <div class="card-body p-5" >
+      
+                      <h1 class="mb-5 text-center">Item Atribute</h1>
+                      <br/>
+                      <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-outline mb-4">
+                            <input type="text" id="form6Example3" class="form-control" placeholder="Name" name="name"/>
+                        </div>
+                        <div class="form-outline mb-4">
+                          <input type="number" id="form6Example4" class="form-control" placeholder="Price" name="price"/>
+                        </div>
+                        <div class="form-outline mb-4">
+                          <input type="number" id="form6Example5" class="form-control" placeholder="Amount" name="amount"/>
+                        </div>
+                        <div class="form-outline mb-4">
+                          <textarea class="form-control" id="form6Example7" rows="4" placeholder="Description" name="description"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark btn-rounded btn-block" value="Add Product">Place Item in Inventory</button>
+                      </form>
+      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    {% endblock %}
+      ```
+      - Menambahkan *internal style sheet* pada berkas `create_item.html` untuk memodifikasi ketentuan *background image*
+      ``` html
+      {% extends 'base.html' %} 
+      <style>
+          .intro {
+              height: 100%;
+          }
+
+          .bg-image-vertical {
+              position: relative;
+              background-repeat: repeat;
+              background-position: right center;
+              background-size: auto 100%;
+          }
+      </style>
+      ...
+      ```
+    5. Kustomisasi `main.html`
+      - Mengimplementasikan komponen Bootstrap navbar pada tampilan daftar inventori dan menempatkan komponen *Add Item*, *Logout*, dan *last login User* didalamnya
+      ``` html
+      ...
+      {% block content %}
+      <nav class="navbar navbar-dark shadow fixed-top">
+          <div class="container-fluid">
+          <a class="navbar-brand" style="color: #f2f2f2;">
+              <img src="https://clipartcraft.com/images/guitar-logo-8.png" alt="logo" width="50" height="50">   Hery Music Store Inventory
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f2f2f2;">
+                      Option
+                  </a>
+                  <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a></li>
+                  <li><a class="dropdown-item" href="{% url 'main:create_item' %}">Add Item</a></li>
+                  </ul>
+              <li class="nav-item dropdown">
+                      <a class="nav-link" href="#">last login: {{last_login}}.</a>
+              </li>
+              </li>
+              </ul>
+          </div>
+          </div>
+      </nav>
+      ...
+      ```
+
+      - Mengimplementasikan komponen Bootstrap jumbotoron untuk menampilkan nama user serta tombol *Add Item*
+      ``` html
+      ...
+      <div style="background: url(https://guitar.com/wp-content/uploads/2021/04/guitar-shop@1400x1050.jpg); font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" class="jumbotron bg-cover text-white">
+          <div class="container py-5 text-center">
+              <br/> <br/> <br/><br/><br/><br/>
+              <h1 class="display-4 font-weight-bold text-with-stroke">Welcome {{user_name}}, to Your Inventory</h1>
+              <br/>
+              <br/> <br/> <br/> <br/>
+              <a href= "{% url 'main:create_item' %}" class="btn btn-light px-5">Add Item</a>
+          </div>
+      </div>
+      ...
+      ``` 
+      - Mengimplementasikan komponen Bootstrap container yang menyimpan table dan komponen Bootstrap card untuk menampilkan produk
+      ``` html
+        ...
+        <section class="py-5">
+          <br/>
+          <div class="container">
+              <h1 style="color:#5a0000; text-align: center;">Total Items Stored in Inventory: {{counter}}</h1>
+              <br/> <br/>
+              <h5 style="color:#5a0000;"> List Item </h5> 
+              <table>
+                  <tr>
+                      <th style="border: 1px solid #000000;">No</th>
+                      <th style="border: 1px solid #000000;">Item</th>
+                  </tr>
+                  {% for item in items %}
+                      <tr>
+                          <td style="border: 1px solid #000000;">{{forloop.counter}}</td>
+                          <td style="border: 1px solid #000000;">{{item.name}}</td>
+                      </tr>
+                  {% endfor %}
+              </table>
+              <br/> <br/> <br/>
+              <h5 style="color:#5a0000;"> Catalog </h5>
+              <div class="row">
+                  {% for item in items %}
+                      <div class="col-md-3 mb-5">
+                          <div class="card" style="width: 18rem;">
+                              <img class="card-img-top" src="https://clipartcraft.com/images/guitar-logo-8.png" alt="item">
+                              <div class="card-body">
+                                  <h5 class="card-title" style="color:#f2f2f2; white-space: wrap; ">{{item.name}}</h5>
+                                  <p></p>
+                                  <p class="card-text">Description: {{item.description}}</p>
+                                  <p class="card-text">Price: {{item.price}}</p>
+                                  <p class="card-text">Amount: {{item.amount}}</p>
+                                  <a href="{% url 'main:increase' item.pk %}" class="btn btn-light">+</a>
+                                  <a href="{% url 'main:decrease' item.pk %}" class="btn btn-light">-</a>
+                                  <a href="{% url 'main:delete' item.pk %}" class="btn btn-light">DEL</a>
+                              </div>
+                              <div class="card-footer" style="background-color: #ffffff;">
+                                  <small class="text-muted">Date Added: {{item.date_added}}</small>
+                              </div>
+                          </div>
+                      </div>
+                  <br/>    
+                  {% endfor %}
+              </div>
+          </div>
+      </section>
+      ...
+      ```
+      - Mengimplementasikan komponen footer untuk menampilkan nama dan kelas
+      ``` html
+      ...
+      </br>
+        <footer id="sticky-footer" class="flex-shrink-0 py-4">
+            <div class="container text-center">
+              <small style="color: #f2f2f2;">Copyright &copy; {{ my_name }} of Class: {{ class }}</small>
+            </div>
+        </footer>
+    {% endblock content %} 
+      ```
+
+</details>

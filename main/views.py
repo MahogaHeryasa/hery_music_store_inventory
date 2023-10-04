@@ -94,19 +94,21 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-def increase_item(request):
-    item_index = int(request.POST.get('item_index'))
-    data = Item.objects.filter(user = request.user)
-    item = data[item_index]
+def increase_item(request, id):
+    # item_index = int(request.POST.get('item_index'))
+    # data = Item.objects.filter(user = request.user)
+    # item = data[item_index]
+    item = Item.objects.get(pk=id)
     item.amount += 1
     item.save()
 
     return redirect('main:show_main')
 
-def decrease_item(request):
-    item_index = int(request.POST.get('item_index'))
-    data = Item.objects.filter(user = request.user)
-    item = data[item_index]
+def decrease_item(request, id):
+    # item_index = int(request.POST.get('item_index'))
+    # data = Item.objects.filter(user = request.user)
+    # item = data[item_index]
+    item = Item.objects.get(pk=id)
     item.amount -= 1
     item.save()
 
@@ -115,10 +117,11 @@ def decrease_item(request):
 
     return redirect('main:show_main')
 
-def delete(request):
-    item_index = int(request.POST.get('item_index'))
-    data = Item.objects.filter(user = request.user)
-    item = data[item_index]
+def delete(request, id):
+    # item_index = int(request.POST.get('item_index'))
+    # data = Item.objects.filter(user = request.user)
+    # item = data[item_index]
+    item = Item.objects.get(pk=id)
     item.delete()
 
     return redirect('main:show_main')

@@ -1,19 +1,56 @@
 {% extends 'base.html' %} 
+<style>
+    .intro {
+        height: 100%;
+    }
+
+    .bg-image-vertical {
+        position: relative;
+        background-repeat: repeat;
+        background-position: right center;
+        background-size: auto 100%;
+    }
+</style>
 
 {% block content %}
-<h1>Add New Item</h1>
+<section class="intro">
+    <div class="bg-image-vertical h-100" style="background-color: #f2f2f2;
+            background-image: url(https://guitar.com/wp-content/uploads/2021/04/guitar-shop@1400x1050.jpg);
+          ">
+      <div class="mask d-flex align-items-center">
+        <div class="container" style="margin-top: 6rem; margin-bottom: 6rem;">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+              <div class="card" style="border-radius: 1rem;">
+                <div class="card-body p-5" >
+  
+                  <h1 class="mb-5 text-center">Item Atribute</h1>
+                  <br/>
+                  <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-outline mb-4">
+                        <input type="text" id="form6Example3" class="form-control" placeholder="Name" name="name"/>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input type="number" id="form6Example4" class="form-control" placeholder="Price" name="price"/>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <input type="number" id="form6Example5" class="form-control" placeholder="Amount" name="amount"/>
+                    </div>
+                    <div class="form-outline mb-4">
+                      <textarea class="form-control" id="form6Example7" rows="4" placeholder="Description" name="description"></textarea>
+                    </div>
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Add Product"/>
-            </td>
-        </tr>
-    </table>
-</form>
+                    <button type="submit" class="btn btn-dark btn-rounded btn-block" value="Add Product">Place Item in Inventory</button>
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 {% endblock %}
