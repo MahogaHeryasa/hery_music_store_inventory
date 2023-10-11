@@ -792,15 +792,14 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
 <summary><b><h1>Tugas 6</h1></b></summary>
    
 ### 1. Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
-
 Synchronous programming adalah konsep dimana setiap fungsi perlu dijalankan secara berurutan, fungsi selanjutnya dijalankan setelah menunggu fungsi sebelumnya selesai atau dengan kata lain menerapkan perilaku *blocking*. Pada pengembangan web, salah satu contoh penerapa synchronous programming adalah ketika kita harus di-*ridirect* ke url path lain ketika menjalankan suatu fungsi. Sementara asynchronous programming adalah konsep dimana setiap fungsi dapat dieksekusi secara bersamaan dan menerapakan perilaku *non-blocking*. Pada pengembangan web, salah satu contoh penerapan synchronous programming adalah ketika suatu fungsi menampilkan form pada suatu halaman yang sudah ada. 
 
 ### 2. Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
-
 Paradigma *event-driven programming* adalah paradigma pemrograman dimana alur suatu program ditentukan oleh suatu *event* yang terjadi seperti interaksi dari pengguna. Salah satu contoh penerapan dari paradigma *event-driven programming* pada soal ini adalah pada saat menampilakan form *add item* dengan menerapkan AJAX,
 Pada potongan kode `document.getElementById("button_add").onclick = addItem`, tombol dengan id "button_add" akan dipasangkan dengan suatu *event handler* `.onclick`, sehingga pada saat tombol tersebut ditekan, program baru akan memanggil fungsi js `addItem` yang akan menampilkan form *add item* secara *asynchronous* dan melakukan *refresh catalog item* secara *asynchronous* ketika form tersebut di submit.    
 
 ### 3. Jelaskan penerapan asynchronous programming pada AJAX.
+penerapan asynchronous programming pada AJAX adalah membiarkan web melakukan *HTTP request* kepada server dan menerima data tanpa memblokir eksekusi halaman utam yang sedang dijalankan. Hal tersebut memungkinkan halaman untuk meng-*update* konten didalamnya secara dinamis tanpa harus me-*refresh* halaman sehingga halaman dapat dijalankan secara responsif.
 
 ### 4. Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
    - Fetch API memiliki ukuran yang lebih ringan, proses yang lebih cepat, ketersediaan pada browser yang lebih luas dibandingkan dengan jQuery yang perlu menerapkan library
