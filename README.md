@@ -803,6 +803,11 @@ Pada potongan kode `document.getElementById("button_add").onclick = addItem`, to
 ### 3. Jelaskan penerapan asynchronous programming pada AJAX.
 
 ### 4. Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
+   - Fetch API memiliki ukuran yang lebih ringan, proses yang lebih cepat, ketersediaan pada browser yang lebih luas dibandingkan dengan jQuery yang perlu menerapkan library
+   - jQuery memiliki utilitas dan konfigurasi yang lebih banyak dan luas, konfigurasi request yang lebih sederhana (dengan chaining) dibandingkan dengan Fetch API, namun dalam penerapan AJAX banyak utilitas jQuery yang tidak dipakai
+   - Fetch API memiliki sintaks yang lebih mudah dipahami dibandingkan dengan jQuery
+
+Menurut saya, dalam konteks penggunaanya untuk AJAX, lebih baik meggunakan Fetch API karena lebih cepat, lebih ringan, dan lebih mudah di pahami dengan sintaks yang konsisten dibandingkan dengan jQuery.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 </details>
