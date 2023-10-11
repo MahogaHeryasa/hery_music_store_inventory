@@ -84,12 +84,13 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f2f2f2;">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f2f2f2;">
                     Option
                 </a>
                 <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{% url 'main:logout' %}">Logout</a></li>
                 <li><a class="dropdown-item" href="{% url 'main:create_item' %}">Add Item</a></li>
+                <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addItem">Add Item by AJAX</button></li>
                 </ul>
             <li class="nav-item dropdown">
                     <a class="nav-link" href="#">last login: {{last_login}}.</a>
@@ -106,53 +107,22 @@
             <h1 class="display-4 font-weight-bold text-with-stroke">Welcome {{user_name}}, to Your Inventory</h1>
             <br/>
             <br/> <br/> <br/> <br/>
-            <a href= "{% url 'main:create_item' %}" class="btn btn-light px-5">Add Item</a>
+            <a href= "{% url 'main:create_item' %}" class="btn btn-light">Add Item</a>
+            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addItem">Add Item by AJAX</button>
         </div>
     </div>
   
     <section class="py-5">
         <br/>
         <div class="container">
-            <h1 style="color:#5a0000; text-align: center;">Total Items Stored in Inventory: {{counter}}</h1>
+            <!-- <h1 style="color:#5a0000; text-align: center;">Total Items Stored in Inventory: {{counter}}</h1> -->
+            <h1 style="color:#5a0000; text-align: center;" id="item_total"></h1>
             <br/> <br/>
-            <h5 style="color:#5a0000;"> List Item </h5> 
-            <table>
-                <tr>
-                    <th style="border: 1px solid #000000;">No</th>
-                    <th style="border: 1px solid #000000;">Item</th>
-                </tr>
-                {% for item in items %}
-                    <tr>
-                        <td style="border: 1px solid #000000;">{{forloop.counter}}</td>
-                        <td style="border: 1px solid #000000;">{{item.name}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <h5 style="color:#5a0000;"> List Item </h5>
+            <table id="item_list"></table>
             <br/> <br/> <br/>
             <h5 style="color:#5a0000;"> Catalog </h5>
-            <div class="row">
-                {% for item in items %}
-                    <div class="col-md-3 mb-5">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="https://clipartcraft.com/images/guitar-logo-8.png" alt="item">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color:#f2f2f2; white-space: wrap; ">{{item.name}}</h5>
-                                <p></p>
-                                <p class="card-text">Description: {{item.description}}</p>
-                                <p class="card-text">Price: {{item.price}}</p>
-                                <p class="card-text">Amount: {{item.amount}}</p>
-                                <a href="{% url 'main:increase' item.pk %}" class="btn btn-light">+</a>
-                                <a href="{% url 'main:decrease' item.pk %}" class="btn btn-light">-</a>
-                                <a href="{% url 'main:delete' item.pk %}" class="btn btn-light">DEL</a>
-                            </div>
-                            <div class="card-footer" style="background-color: #ffffff;">
-                                <small class="text-muted">Date Added: {{item.date_added}}</small>
-                            </div>
-                        </div>
-                    </div>
-                <br/>    
-                {% endfor %}
-            </div>
+            <div class="row" id="item_card"></div>
         </div>
     </section>
 
@@ -162,4 +132,107 @@
           <small style="color: #f2f2f2;">Copyright &copy; {{ my_name }} of Class: {{ class }}</small>
         </div>
     </footer>
+
+    <div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="addItemLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Item Atribute</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <!-- <label for="name" class="col-form-label">Name:</label> -->
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"></input>
+                        </div>
+                        <div class="mb-3">
+                            <!-- <label for="description" class="col-form-label">Description:</label> -->
+                            <textarea class="form-control" id="description" name="description" placeholder="Description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <!-- <label for="price" class="col-form-label">Price:</label> -->
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Price"></input>
+                        </div>
+                        <div class="mb-3">
+                            <!-- <label for="amount" class="col-form-label">Amount:</label> -->
+                            <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount"></input>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function getItem() {
+            return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+        }
+
+        async function refreshItem() {
+            const items = await getItem()
+            document.getElementById("item_list").innerHTML = ""
+            let htmlStringTable = `<tr>
+                <th style="border: 1px solid #000000;">No</th>
+                <th style="border: 1px solid #000000;">Item</th>
+            </tr>`
+            let loopCount = 1
+            items.forEach((item) => {
+                htmlStringTable += `\n<tr>
+                <td style="border: 1px solid #000000;">${loopCount}</td>
+                <td style="border: 1px solid #000000;">${item.fields.name}</td>
+            </tr>` 
+                loopCount++
+            })
+            document.getElementById("item_list").innerHTML = htmlStringTable
+
+            document.getElementById("item_card").innerHTML = ""
+            let htmlStringCard = ``
+            let itemCount = 0
+            items.forEach((item) => {
+                htmlStringCard += 
+                `<div class="col-md-3 mb-5">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="https://clipartcraft.com/images/guitar-logo-8.png" alt="item">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color:#f2f2f2; white-space: wrap; ">${item.fields.name}</h5>
+                            <p></p>
+                            <p class="card-text">Description: ${item.fields.description}</p>
+                            <p class="card-text">Price: ${item.fields.price}</p>
+                            <p class="card-text">Amount: ${item.fields.amount}</p>
+                            <a href="increase/${item.pk}" class="btn btn-light">+</a>
+                            <a href="decrease/${item.pk}" class="btn btn-light">-</a>
+                            <a href="delete/${item.pk}" class="btn btn-light">DEL</a>
+                        </div>
+                        <div class="card-footer" style="background-color: #ffffff;">
+                            <small class="text-muted">Date Added: ${item.fields.date_added}</small>
+                        </div>
+                    </div>
+                </div>` 
+                itemCount += item.fields.amount
+            })
+            document.getElementById("item_card").innerHTML = htmlStringCard
+
+            document.getElementById("item_total").innerHTML = `Total Items Stored in Inventory: ` + itemCount
+        }
+
+        refreshItem()
+
+        function addItem() {
+            fetch("{% url 'main:add_item_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(refreshItem)
+
+            document.getElementById("form").reset()
+            return false
+        }
+
+        document.getElementById("button_add").onclick = addItem
+    </script>
 {% endblock content %} 
