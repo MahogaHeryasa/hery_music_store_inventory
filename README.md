@@ -387,7 +387,7 @@ Secara default, penggunaan cookies aman-aman saja jika cookies digunakan untuk m
 
  Bootstrap sebaiknya digunakan daripada Tailwind ketika kita perlu membuat proyek yang tidak memakan waktu atau pemula yang baru mengenali pemengembangan web, implementasi design akan lebih mudah dengan komponen bawaan Bootstrap. Sebaliknya Tailwind digunakan ketika proyek kita memerlukan kontrol yang lebih besar terhadap tampilan, namun rela melakukan pekerjaan yang lebih banyak untuk mengatur hal tersebut.  
 
- ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+ ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 
   - Kustomisasi desain pada templat HTML yang telah dibuat pada Tugas 4 dengan menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma)
     1. Menambahkan Bootstrap pada aplikasi dengan menambahkan link bootstrap pada base.html 
@@ -804,5 +804,5 @@ Pada potongan kode `document.getElementById("button_add").onclick = addItem`, to
 
 ### 4. Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
 
-### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
 </details>
