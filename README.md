@@ -809,4 +809,230 @@ penerapan asynchronous programming pada AJAX adalah membiarkan web melakukan *HT
 Menurut saya, dalam konteks penggunaanya untuk AJAX, lebih baik meggunakan Fetch API karena lebih cepat, lebih ringan, dan lebih mudah di pahami dengan sintaks yang konsisten dibandingkan dengan jQuery.
 
 ### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step.
+
+#### 1. AJAX GET
+
+- Ubahlah kode cards data item agar dapat mendukung AJAX GET.
+  - Kode html total, list, dan card item yang tadinya berada didalam dokumen `main.html` langsung, dipindahkan ke dalam fungsi refresh item pada script js. Sehingga pada dokumen html hanya terdapat kode
+
+    ``` html
+    <h1 style="color:#5a0000; text-align: center;" id="item_total"></h1>
+    <br/> <br/>
+    <h5 style="color:#5a0000;"> List Item </h5>
+    <table id="item_list"></table>
+    <br/> <br/> <br/>
+    <h5 style="color:#5a0000;"> Catalog </h5>
+    <div class="row" id="item_card"></div>
+    ```
+    tag h1, table, dan row yang menyimpan card diberikan id yang akan di-*refrence* oleh fungsi yang me-*refresh* data item pada script js.
+- Lakukan pengambilan task menggunakan AJAX GET.
+  - Untuk mengimplementasikan AJAX GET perlu dibuat fungsi pada `views.py` yang mengambil semua data item user dengan format JSON
+
+      ``` python
+      def get_item_json(request):
+        item = Item.objects.filter(user=request.user)
+        return HttpResponse(serializers.serialize('json', item))
+      ```
+  - Setelah itu, Import fungsi `get_item_json` ke `urls.py` dan tambahkan path fungsi tersebut
+
+    ``` python
+    ...
+    path('get-item/', get_item_json, name='get_item_json'),
+    ...
+    ```
+  - Buat tag `<script></script>` pada `main.html` untuk menyimpan fungsi js didalamnya
+  - Buat fungsi js yang akan mengambil seluruh data item user dengan melakukan `fetch` fungsi `get_item_json` pada `views.py` 
+
+    ``` javascript
+    ...
+    async function getItem() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json())
+    }
+    ...
+    ```
+  - Buat fungsi js yang me-*refresh* data item secara asinkronus dan menampilkan seluruh item user ketika dipanggil
+
+    ```javascript
+    async function refreshItem() {
+      const items = await getItem()
+      document.getElementById("item_list").innerHTML = ""
+      let htmlStringTable = `<tr>
+          <th style="border: 1px solid #000000;">No</th>
+          <th style="border: 1px solid #000000;">Item</th>
+      </tr>`
+      let loopCount = 1
+      items.forEach((item) => {
+          htmlStringTable += `\n<tr>
+          <td style="border: 1px solid #000000;">${loopCount}</td>
+          <td style="border: 1px solid #000000;">${item.fields.name}</td>
+      </tr>` 
+          loopCount++
+      })
+      document.getElementById("item_list").innerHTML = htmlStringTable
+
+      document.getElementById("item_card").innerHTML = ""
+      let htmlStringCard = ``
+      let itemCount = 0
+      items.forEach((item) => {
+          htmlStringCard += 
+          `<div class="col-md-3 mb-5">
+              <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="https://clipartcraft.com/images/guitar-logo-8.png" alt="item">
+                  <div class="card-body">
+                      <h5 class="card-title" style="color:#f2f2f2; white-space: wrap; ">${item.fields.name}</h5>
+                      <p></p>
+                      <p class="card-text">Description: ${item.fields.description}</p>
+                      <p class="card-text">Price: ${item.fields.price}</p>
+                      <p class="card-text">Amount: ${item.fields.amount}</p>
+                      <a href="increase/${item.pk}" class="btn btn-light">+</a>
+                      <a href="decrease/${item.pk}" class="btn btn-light">-</a>
+                      <a href="delete/${item.pk}" class="btn btn-light">DEL</a>
+                      <button type="button" class="btn btn-light" onclick="deleteAJAX(${item.pk})">DEL AJAX</button>
+                  </div>
+                  <div class="card-footer" style="background-color: #ffffff;">
+                      <small class="text-muted">Date Added: ${item.fields.date_added}</small>
+                  </div>
+              </div>
+          </div>` 
+          itemCount += item.fields.amount
+      })
+      document.getElementById("item_card").innerHTML = htmlStringCard
+
+      document.getElementById("item_total").innerHTML = `Total Items Stored in Inventory: ` + itemCount
+    }
+    ``` 
+    Fungsi ini menampilkan card, list, dan total item dengan algoritma yang sama ketika ditampilkan langsung di html secara asinkronus, hanya saja penerapannya disesuaikan dengan sintaks js.
+
+#### 2. AJAX POST
+
+- Buatlah sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan item.
+  - Bagian jumbotron halaman `main.html` ditambahkan suatu tombol html
+
+    ``` html
+    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addItem">Add Item by AJAX</button>
+    ```
+  - Tombol akan men-*toggle* modal form add item berikut agar terlihat ketika tombol tersebut ditekan
+
+      ``` html
+      <div class="modal fade" id="addItem" tabindex="-1" aria-labelledby="addItemLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Item Atribute</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form id="form" onsubmit="return false;">
+                          {% csrf_token %}
+                          <div class="mb-3">
+                              <input type="text" class="form-control" id="name" name="name" placeholder="Name"></input>
+                          </div>
+                          <div class="mb-3">
+                              <textarea class="form-control" id="description" name="description" placeholder="Description"></textarea>
+                          </div>
+                          <div class="mb-3">
+                              <input type="number" class="form-control" id="price" name="price" placeholder="Price"></input>
+                          </div>
+                          <div class="mb-3">
+                              <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount"></input>
+                          </div>
+                      </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      ```
+- Modal di-trigger dengan menekan suatu tombol pada halaman utama. Saat penambahan item berhasil, modal harus ditutup dan input form harus dibersihkan dari data yang sudah dimasukkan ke dalam form sebelumnya.
+  - Untuk mengimplementasikan hal tersebut, buat fungsi `addItem` didalam tag script untuk js
+
+    ```javascript
+    ...
+    function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshItem)
+
+        document.getElementById("form").reset()
+        return false
+    }
+    ...
+    ``` 
+    fungsi ini akan mengambil data pada modal dengan memanggil fungsi `add_item_ajax` pada `views.py` dan melakukan `refreshItem` secara asinkronus setelah mengambil data, serta mereset form modal
+
+  - Setelah itu, tambahkan juga setelah fungsi `addItem`
+    ```javascript
+    ...
+    document.getElementById("button_add").onclick = addItem
+    ...
+    ```
+    agar tombol Add Item pada modal memanggil fungsi addItem ketika ditekan.
+
+- Buatlah fungsi view baru untuk menambahkan item baru ke dalam basis data.
+  - Untuk memasukkan item baru ke dalam basis data, buat fungsi ``
+
+    ```python
+    @csrf_exempt
+    def add_item_ajax(request):
+        if request.method == 'POST':
+            name = request.POST.get("name")
+            description = request.POST.get("description")
+            price = request.POST.get("price")
+            amount = request.POST.get("amount")
+            user = request.user
+
+            new_item = Item(name=name, description=description, price=price, amount=amount, user=user)
+            new_item.save()
+
+            return HttpResponse(b"CREATED", status=201)
+
+        return HttpResponseNotFound()
+    ```
+    fungsi ini akan membuat item baru sesuai atribut yang diinput pada form dan menambahakan item tersebut pada database
+
+- Buatlah path /create-ajax/ yang mengarah ke fungsi view yang baru kamu buat.
+  - Import fungsi `add_item_ajax` ke `urls.py`
+  - Menambahkan path `create-ajax` pada list `urlpatterns`
+
+    ```python
+    ...
+    path('create-ajax/', add_item_ajax, name='add_item_ajax'),
+    ...
+    ```
+
+- Hubungkan form yang telah kamu buat di dalam modal kamu ke path /create-ajax/.
+  - Form dihubungkan dengan path /create-ajax/ melalui tombol Add Item pada form yang memanggil fungsi addItem ketika ditekan, dan fungsi `addItem` pada script js akan memanggil fungsi `add_item_ajax` pada `views.py` dengan perintah
+
+    ```javascript
+    ...
+    fetch("{% url 'main:add_item_ajax' %}"
+    ...
+    )
+    ...
+    ```
+
+
+- Lakukan refresh pada halaman utama secara asinkronus untuk menampilkan daftar item terbaru tanpa reload halaman utama secara keseluruhan.
+  - Refresh asinkronus diimplementasikan dengan menambahkan fungsi `refreshItem` untuk fungsi yang merubah database dan didalam tag `<script></script>` agar setiap masuk halaman `main.html` data di-*refresh* secara asinkronus.
+
+#### 3. Melakukan perintah collectstatic.
+  - Mapping output file static ke direktori yang benar dengan menambahkan kode berikut pada `settings.py`
+    ```python
+    ...
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+    STATIC_URL = 'static/'
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ...
+    ```
+  - Menjalankan perintah berikut pada terminal
+      ```python
+      python manage.py collectstatic
+      ```
 </details>
