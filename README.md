@@ -1,4 +1,4 @@
-## Tautan Aplikasi = [hery-music-store-inventory](https://hery-music-store-inventory.adaptable.app/main/)
+## Tautan Aplikasi = [hery-music-store-inventory](http://mahoga-aribowo-tugas.pbp.cs.ui.ac.id./)
 
 <details>
 <summary><b><h1>Tugas 2</h1></b></summary>
